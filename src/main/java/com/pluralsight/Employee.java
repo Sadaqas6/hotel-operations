@@ -1,9 +1,10 @@
 package com.pluralsight;
 
 public class Employee {
-    private int employeeId;
+    private int employeeId, startTime, endTime;
     private String name, department;
     private double payRate, hoursWorked;
+
 
 
     public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
@@ -14,6 +15,25 @@ public class Employee {
         this.hoursWorked = hoursWorked;
 
 
+
+    }
+
+    public void punchTimeCard(int time){
+        if (startTime == 0){
+            punchIn(time);
+        }else{
+            punchOut(time);
+        }
+    }
+
+
+    public void punchIn(int time){
+        startTime = time;
+    }
+
+    public void punchOut(int time){
+
+        hoursWorked = hoursWorked + (time - startTime);
     }
 
     public int getEmployeeId() {
@@ -37,7 +57,7 @@ public class Employee {
     }
 
     public double getRegularHours(){
-        double regularHours = 0;
+        double regularHours;
         if(hoursWorked > 40){
             regularHours = 40;
         }else{
@@ -55,7 +75,7 @@ public class Employee {
     }
 
     public double getTotalPay(){
-        double totalPay = (getRegularHours() * getPayRate() + getOvertimeHours() * getPayRate() * 1.5);
+        double totalPay = (this.getRegularHours() * this.getPayRate()) + (this.getOvertimeHours() * (this.getPayRate() * 1.5));
         return totalPay;
     }
 }
