@@ -1,9 +1,11 @@
 package com.pluralsight;
 
+import java.time.LocalDateTime;
+
 public class Employee {
-    private int employeeId, startTime, endTime;
+    private int employeeId;
     private String name, department;
-    private double payRate, hoursWorked;
+    private double payRate, hoursWorked, startTime;
 
 
 
@@ -18,22 +20,40 @@ public class Employee {
 
     }
 
-    public void punchTimeCard(int time){
-        if (startTime == 0){
+    public void punchTimeCard(double time){
+        if (startTime != -1){
             punchIn(time);
         }else{
             punchOut(time);
         }
     }
+    public void punchIn(){
+        LocalDateTime now = LocalDateTime.now();
 
+        double hour = now.getHour();
+        double minute = now.getMinute();
 
-    public void punchIn(int time){
-        startTime = time;
+        double time = hour + (minute / 60);
+        punchIn(time);
     }
 
-    public void punchOut(int time){
+    public void punchIn(double time){
+        startTime = time; // saves the time that was passed in
+    }
 
-        hoursWorked = hoursWorked + (time - startTime);
+    public void punchOut(double time){
+
+        this.hoursWorked += time - startTime; // uses the time passed in
+        startTime = -1;
+    }
+
+    public void punchOut(){
+        LocalDateTime now = LocalDateTime.now();
+        double hour = now.getHour();
+        double minute = now.getMinute();
+
+        double time = hour + (minute / 60);
+        punchOut(time);
     }
 
     public int getEmployeeId() {
