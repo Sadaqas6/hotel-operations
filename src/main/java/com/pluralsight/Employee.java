@@ -5,9 +5,8 @@ import java.time.LocalDateTime;
 public class Employee {
     private int employeeId;
     private String name, department;
-    private double payRate, hoursWorked, startTime;
-
-
+    private double payRate, hoursWorked;
+    private int startTime = -1;
 
     public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -15,45 +14,36 @@ public class Employee {
         this.department = department;
         this.payRate = payRate;
         this.hoursWorked = hoursWorked;
-
-
-
+        this.startTime = -1;
     }
 
-    public void punchTimeCard(double time){
-        if (startTime != -1){
+    public void punchTimeCard(int time) {
+        if (startTime == -1) {
             punchIn(time);
-        }else{
+        } else {
             punchOut(time);
         }
     }
-    public void punchIn(){
+
+    public void punchIn() {
         LocalDateTime now = LocalDateTime.now();
-
-        double hour = now.getHour();
-        double minute = now.getMinute();
-
-        double time = hour + (minute / 60);
-        punchIn(time);
+        int hour = now.getHour();
+        punchIn(hour);
     }
 
-    public void punchIn(double time){
-        startTime = time; // saves the time that was passed in
+    public void punchIn(int time) {
+        startTime = time;
     }
 
-    public void punchOut(double time){
-
-        this.hoursWorked += time - startTime; // uses the time passed in
+    public void punchOut(int time) {
+        this.hoursWorked += time - startTime;
         startTime = -1;
     }
 
-    public void punchOut(){
+    public void punchOut() {
         LocalDateTime now = LocalDateTime.now();
-        double hour = now.getHour();
-        double minute = now.getMinute();
-
-        double time = hour + (minute / 60);
-        punchOut(time);
+        int hour = now.getHour();
+        punchOut(hour);
     }
 
     public int getEmployeeId() {
@@ -76,26 +66,26 @@ public class Employee {
         return hoursWorked;
     }
 
-    public double getRegularHours(){
+    public double getRegularHours() {
         double regularHours;
-        if(hoursWorked > 40){
+        if (hoursWorked > 40) {
             regularHours = 40;
-        }else{
+        } else {
             regularHours = hoursWorked;
         }
         return regularHours;
     }
 
-    public double getOvertimeHours(){
-       double overtimeHours = 0;
-        if(hoursWorked > 40){
+    public double getOvertimeHours() {
+        double overtimeHours = 0;
+        if (hoursWorked > 40) {
             overtimeHours = hoursWorked - 40;
         }
         return overtimeHours;
     }
 
-    public double getTotalPay(){
-        double totalPay = (this.getRegularHours() * this.getPayRate()) + (this.getOvertimeHours() * (this.getPayRate() * 1.5));
+    public double getTotalPay() {
+        double totalPay = (getRegularHours() * getPayRate()) + (getOvertimeHours() * (getPayRate() * 1.5));
         return totalPay;
     }
 }

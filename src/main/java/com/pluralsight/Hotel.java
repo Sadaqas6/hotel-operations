@@ -25,26 +25,24 @@ public class Hotel {
 
     // Derived Getters
     public int getAvailableSuites(){
-        return numberOfSuites - bookedSuites;
+        return this.numberOfSuites - this.bookedSuites;
     }
 
     public int getAvailableRooms(){
-        return numberOfRooms - bookedBasicRooms;
+        return this.numberOfRooms - this.bookedBasicRooms;
     }
 
     // BookRoom Method
     public boolean bookRoom(int numberOfRooms, boolean isSuite){
 
-        if(isSuite){
-            if (getAvailableSuites() >= numberOfRooms){
-                bookedSuites += numberOfRooms;
+        if(isSuite  && getAvailableSuites() >= numberOfRooms){
+                this.bookedSuites += numberOfRooms;
                 return true;
-            }
-        }else{
-            if(getAvailableRooms() >= numberOfRooms){
-                bookedBasicRooms += numberOfRooms;
+
+        }else if (!isSuite && getAvailableRooms() >= numberOfRooms){
+                this.bookedBasicRooms += numberOfRooms;
                 return true;
-            }
+
         }
         return false;
     }
